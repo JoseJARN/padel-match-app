@@ -22,4 +22,15 @@ class MatchModel extends Model
     'cost'
   ];
   protected $useTimestamps = false;
+
+  public function getCategoriesCount($userId)
+  {
+    return $this->db->query("
+        SELECT category, COUNT(*) as total
+        FROM {$this->table}
+        WHERE user_id = ?
+        GROUP BY category
+        ORDER BY category ASC
+    ", [$userId])->getResultArray();
+  }
 }
