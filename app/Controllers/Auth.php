@@ -122,7 +122,7 @@ class Auth extends BaseController
       ]);
 
       // Redirigir al dashboard o página principal
-      return redirect()->to('/');
+      return redirect()->to('/board');
     }
 
     // Si la solicitud es GET, mostrar el formulario de inicio de sesión
