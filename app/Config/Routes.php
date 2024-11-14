@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->match(['GET', 'POST'], 'register', 'Auth::register');
+$routes->match(['GET', 'POST'], 'login', 'Auth::login');

@@ -15,16 +15,35 @@ class Auth extends BaseController
       $rules = [
         'email' => 'required|valid_email|is_unique[users.email]',
         'password' => 'required|min_length[8]',
+        'repeat_password' => 'required|matches[password]',
         'first_name' => 'required|max_length[50]',
         'last_name' => 'required|max_length[50]',
       ];
 
       // Validar datos enviados
       if (!$this->validate($rules)) {
-        // Si la validación falla, recargar la vista con errores
+        // Inicializamos $error_form como null
+        $error_form = null;
+
+        // Obtenemos todos los errores de validación
+        $validationErrors = $this->validator->getErrors();
+
+        // Asignamos mensajes personalizados si hay errores
+        if (isset($validationErrors['email'])) {
+          $error_form = 'El correo electrónico ya está registrado o es inválido.';
+        } elseif (isset($validationErrors['repeat_password'])) {
+          $error_form = 'Las contraseñas no coinciden.';
+        } elseif (isset($validationErrors['password'])) {
+          $error_form = 'La contraseña debe tener al menos 8 caracteres.';
+        } else {
+          $error_form = 'El formulario contiene errores.';
+        }
+
+        // Recargamos la vista con errores
         return view('register', [
-          'title' => 'Registro de Usuario',
+          'title' => 'Registra tu Usuario',
           'validation' => $this->validator,
+          'error_form' => $error_form
         ]);
       }
 
@@ -47,5 +66,66 @@ class Auth extends BaseController
 
     // Si la solicitud es GET, mostrar el formulario
     return view('register', ['title' => 'Registro de Usuario']);
+  }
+
+  /* Código para gestionar el login y las sesiones */
+  protected $session;
+
+  public function __construct()
+  {
+    $this->session = session(); // Inicializamos la sesión
+  }
+
+  public function login()
+  {
+    helper('form'); // Cargar el helper de formularios
+
+    if ($this->request->getMethod() === 'POST') {
+      // Reglas de validación
+      $rules = [
+        'email' => 'required|valid_email',
+        'password' => 'required',
+      ];
+
+      // Validar datos enviados
+      if (!$this->validate($rules)) {
+        return view('login', [
+          'title' => 'Iniciar sesión',
+          'validation' => $this->validator,
+        ]);
+      }
+
+      $userModel = new UserModel();
+      $user = $userModel->where('email', $this->request->getPost('email'))->first();
+
+      // Verificar usuario y contraseña
+      if ($user === null || !password_verify($this->request->getPost('password'), $user['password'])) {
+        return view('login', [
+          'title' => 'Iniciar sesión',
+          'error' => 'Usuario o contraseña incorrectos',
+        ]);
+      }
+
+      // Actualizar el último inicio de sesión
+      $userModel->update($user['id'], [
+        'last_login' => date('Y-m-d H:i:s'),
+        'last_ip' => $this->request->getIPAddress() ?? '0.0.0.0',
+      ]);
+
+      // Configurar la sesión
+      $this->session->set([
+        'user_id' => $user['id'],
+        'email' => $user['email'],
+        'first_name' => $user['first_name'],
+        'last_name' => $user['last_name'],
+        'isLoggedIn' => true,
+      ]);
+
+      // Redirigir al dashboard o página principal
+      return redirect()->to('/');
+    }
+
+    // Si la solicitud es GET, mostrar el formulario de inicio de sesión
+    return view('login', ['title' => 'Iniciar sesión']);
   }
 }
