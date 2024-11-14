@@ -5,7 +5,7 @@
 <div class="container mx-auto px-4">
   <p class="welcome_message text-3xl font-bold mb-12">Bienvenid@, <?= session()->get('first_name') ?>! 👋</p>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    <!-- Columna: Formulario para registrar un partido -->
+
     <div class="bg-white shadow-xl rounded px-8 py-6">
       <h1 class="form__title text-2xl mb-3 font-semibold p-2 pl-4 bg-blue-50 border-l-2 border-blue-500">Registrar Partido</h1>
       <?php if (session()->get('success')): ?>
@@ -43,7 +43,13 @@
 
         <div class="flex flex-col">
           <label for="category" class="mb-2 text-sm font-medium">Categoría</label>
-          <input type="text" name="category" required class="rounded-md border border-gray-300 p-2">
+          <select name="category" required class="rounded-md border border-gray-300 p-2">
+            <option value="1ª">1ª</option>
+            <option value="2ª">2ª</option>
+            <option value="3ª">3ª</option>
+            <option value="4ª">4ª</option>
+            <option value="5ª">5ª</option>
+          </select>
         </div>
 
         <div class="flex flex-col">
@@ -80,7 +86,6 @@
       </form>
     </div>
 
-    <!-- Columna: Listado de partidos -->
     <div class="bg-white shadow-xl rounded px-8 py-6">
       <h2 class="text-2xl mb-3 font-semibold p-2 pl-4 bg-blue-50 border-l-2 border-blue-500">Últimos 10 Partidos</h2>
       <?php if (empty($matches)): ?>
