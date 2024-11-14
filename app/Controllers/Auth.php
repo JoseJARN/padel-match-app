@@ -128,4 +128,10 @@ class Auth extends BaseController
     // Si la solicitud es GET, mostrar el formulario de inicio de sesión
     return view('login', ['title' => 'Iniciar sesión']);
   }
+
+  public function logout()
+  {
+    session()->destroy(); // Destruir la sesión
+    return redirect()->to('/login')->with('success', 'Has cerrado sesión correctamente.');
+  }
 }

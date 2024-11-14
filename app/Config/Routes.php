@@ -11,3 +11,4 @@ $routes->match(['GET', 'POST'], 'login', 'Auth::login');
 $routes->get('board', 'Board::index');
 $routes->post('board/add', 'Board::add'); // Para manejar el formulario de añadir partidos
 $routes->get('matches', 'Matches::index');
+$routes->get('logout', 'Auth::logout');

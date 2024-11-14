@@ -14,12 +14,19 @@
     <div class="container mx-auto flex justify-between items-center">
       <a href="/" class="text-white font-bold">Pádel Match</a>
       <ul class="flex space-x-4">
-        <li><a href="/login">Iniciar sesión</a></li>
-        <li><a href="/register">Registrarse</a></li>
+        <?php if (session()->get('isLoggedIn')): ?>
+          <li><a href="/board" class="hover:underline">Board</a></li>
+          <li><a href="/matches" class="hover:underline">Partidos</a></li>
+          <li><a href="/logout" class="hover:underline">Cerrar sesión</a></li>
+        <?php else: ?>
+          <li><a href="/login" class="hover:underline">Iniciar sesión</a></li>
+          <li><a href="/register" class="hover:underline">Registrarse</a></li>
+        <?php endif; ?>
       </ul>
     </div>
   </nav>
 </header>
+
 
 <body>
   <main class="main bg-gray-50 pt-16 pb-16" id="main">
