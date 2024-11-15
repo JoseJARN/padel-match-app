@@ -41,7 +41,7 @@
           <?php endforeach; ?>
         </ul>
         <div class="mt-4">
-          <?= $pager->links() ?> <!-- Muestra la paginación -->
+          <?= $pager->links('default', 'pagination') ?>
         </div>
       <?php endif; ?>
     </div>
