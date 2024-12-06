@@ -75,6 +75,8 @@ Este proyecto busca cubrir la necesidad de gestionar fácilmente la información
    - Copia el archivo `.env.example` y renómbralo a `.env`.
    - Configura las credenciales de la base de datos en el archivo `.env`.
 
+---
+
 ## ❤️ Agradecimientos
 
 Agradecer a mis compis de pádel por probar la aplicación y darme feedback para mejorarla. Siento tener que ganaros todas las semanas, intentaré ser menos duro con vosotros. 😜🎾
