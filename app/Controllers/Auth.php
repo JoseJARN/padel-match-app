@@ -6,8 +6,20 @@ use App\Models\UserModel;
 
 class Auth extends BaseController
 {
+  protected $session;
+
+  public function __construct()
+  {
+    $this->session = session(); // Inicializamos la sesión
+  }
+
   public function register()
   {
+    // Redirigir al tablero si ya está autenticado
+    if ($this->session->get('isLoggedIn')) {
+      return redirect()->to('/board');
+    }
+
     helper('form'); // Cargar helper de formularios
 
     if ($this->request->getMethod() === 'POST') { // Detectar método POST
@@ -68,16 +80,13 @@ class Auth extends BaseController
     return view('register', ['title' => 'Registro de Usuario']);
   }
 
-  /* Código para gestionar el login y las sesiones */
-  protected $session;
-
-  public function __construct()
-  {
-    $this->session = session(); // Inicializamos la sesión
-  }
-
   public function login()
   {
+    // Redirigir al tablero si ya está autenticado
+    if ($this->session->get('isLoggedIn')) {
+      return redirect()->to('/board');
+    }
+
     helper('form'); // Cargar el helper de formularios
 
     if ($this->request->getMethod() === 'POST') {
@@ -121,7 +130,7 @@ class Auth extends BaseController
         'isLoggedIn' => true,
       ]);
 
-      // Redirigir al dashboard o página principal
+      // Redirigir al tablero
       return redirect()->to('/board');
     }
 
