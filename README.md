@@ -1,68 +1,80 @@
-# CodeIgniter 4 Application Starter
+# 🏓 Pádel Match
 
-## What is CodeIgniter?
+**Proyecto Final** del Ciclo Formativo de Grado Superior en **Desarrollo de Aplicaciones Web (CFGS DAW)**.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 🧐 ¿Cómo nació la idea?
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+La idea para Pádel Match surgió durante una conversación entre colegas tras un partidito que montamos todos los Lunes. Nos preguntábamos cómo sería llevar un registro completo de los partidos que jugamos semanalmente: ¿cuántos ganamos? ¿cuántos perdimos? ¿cuánto dinero gastamos? Así nació la idea de crear una herramienta que lo hiciera por nosotros y así salir de dudas. 💡
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Este proyecto busca cubrir la necesidad de gestionar fácilmente la información de los partidos jugados, estadísticas de rendimiento y control de gastos. ¡Todo desde una interfaz sencilla y gratuita por supuesto! jejeje 🆓
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## 🚀 Funcionalidades principales
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### 🌟 **Para el usuario:**
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+- **Registro de partidos:** Añade información detallada sobre cada partido, como:
+  - Compañero, rivales, resultado y modo de juego.
+  - Categoría, fecha y club donde jugaste.
+  - Coste económico del partido.
+- **Estadísticas generales y avanzadas:**
+  - Partidos ganados, perdidos, total y porcentaje de victorias. 📊
+  - Registro del dinero gastado. 💶
+  - Información segmentada por períodos (última semana, mes y año). 🗓️
+  - Clasificación de partidos por modalidades (amistosos, torneos, ligas). 🎾
+  - Conteo de partidos por categorías (1ª a 5ª). 🏅
+- **Paginación para el listado de partidos:** Navega por todos los partidos registrados con facilidad. 📄
 
-## Setup
+---
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## 🛠️ Tecnologías utilizadas
 
-## Important Change with index.php
+### 💻 **Backend:**
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- **PHP** (Framework: CodeIgniter 4) 🐘
+  - Arquitectura MVC para mantener el código organizado y escalable.
+  - Sistema de autenticación con sesiones.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 🌐 **Frontend:**
 
-**Please** read the user guide for a better explanation of how CI4 works!
+- **HTML** + **CSS** (Framework: Tailwind CSS) 🎨
+  - Diseño responsivo para que funcione en cualquier dispositivo.
+  - Componentes reutilizables y estéticamente agradables.
+- **JavaScript** para funcionalidades varias. ⚡
 
-## Repository Management
+### 🗃️ **Base de datos:**
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+- **MySQL** 📂
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 🧪 **Herramientas de desarrollo:**
 
-## Server Requirements
+- **Postman:** Para probar y depurar las rutas del backend. 🚀
+- **Git/GitHub:** Control de versiones y trabajo colaborativo. 🛠️
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+---
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## 🏗️ Instalación y configuración
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+1. **Clona este repositorio:**
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+   ```bash
+   git clone https://github.com/JoseJARN/padel-match-app
+   cd padel-match-app
+   ```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+2. **Instala las dependencias:**
+
+   ```bash
+    composer install
+    npm install
+   ```
+
+3. **Configura la base de datos:**
+   - Crea una base de datos en MySQL.
+   - Copia el archivo `.env.example` y renómbralo a `.env`.
+   - Configura las credenciales de la base de datos en el archivo `.env`.
+
+## ❤️ Agradecimientos
+
+Agradecer a mis compis de pádel por probar la aplicación y darme feedback para mejorarla. Siento tener que ganaros todas las semanas, intentaré ser menos duro con vosotros. 😜🎾
