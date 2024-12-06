@@ -48,14 +48,18 @@
     <div class="bg-white shadow-xl rounded px-8 py-6">
       <h2 class="text-2xl mb-3 font-semibold p-2 pl-4 bg-blue-50 border-l-2 border-blue-500">¿Por qué Pádel Match?</h2>
       <div class="box-content">
-        <p class="mb-[16px]">Se trata de una aplicación <strong>totalmente gratuita</strong> que tiene como objetivo registrar tus partidos de pádel para guardar un histórico de los mismos y además llevar un control y estadísticas de los partidos ganados, perdidos y del dinero gastado.</p>
-        <p class="mb-[16px]">¿Quiéres saber cuáles son las funciones que tiene?</p>
+        <p class="mb-[16px]">En <strong>Pádel Match</strong> queremos ayudarte a llevar tu juego al siguiente nivel. Con nuestra aplicación <strong>🎉 totalmente gratuita</strong>, no solo registrarás tus partidos, sino que descubrirás patrones en tu rendimiento, optimizarás tu estrategia y mantendrás un registro claro de tus progresos. 🏅</p>
+        <p class="mb-[16px]">🤔 ¿Aún no estás convencido? Aquí tienes más razones para unirte:</p>
         <ul class="mb-[16px]">
-          <li class="mb-2">📝 <strong>Registra tus partidos:</strong> Guarda un historial detallado de cada partido, incluyendo fecha, rivales y resultado.</li>
-          <li class="mb-2">📈 <strong>Analiza tu progreso:</strong> Visualiza tus estadísticas de forma clara y sencilla. Lleva un control de tus partidos ganados, perdidos y el porcentaje de victorias.</li>
-          <li>💶 <strong>Lleva un registro de tus gastos:</strong> Descubre cuanto dinero llevas gastado en partidos.</li>
+          <li class="mb-2">📝 <strong>Un historial organizado:</strong> No pierdas detalle de tus partidos, incluyendo fechas, rivales y resultados.</li>
+          <li class="mb-2">📊 <strong>Estadísticas personalizadas:</strong> Obtén un análisis preciso de tus victorias, derrotas y evolución a lo largo del tiempo.</li>
+          <li class="mb-2">💸 <strong>Control financiero:</strong> Mantén un registro del dinero invertido en tus partidos y torneos.</li>
+          <li class="mb-2">🌟 <strong>Motivación constante:</strong> Observa tu progreso y marca tus metas para mantenerte siempre enfocado.</li>
         </ul>
-        <p>¡Y mucho más! Pádel Match es tu compañero ideal para controlar tu inversión y progreso en este deporte.</p>
+        <p class="mb-[16px]">🔥 <strong>¡Únete ahora!</strong> Hay jugadores que ya confían en <strong>Pádel Match</strong> para registrar y analizar su progreso. No te quedes atrás. 🥇</p>
+        <p class="mb-[16px] text-center">
+          <a href="/register" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block">⚡ Regístrate gratis</a>
+        </p>
       </div>
     </div>
   </div>
