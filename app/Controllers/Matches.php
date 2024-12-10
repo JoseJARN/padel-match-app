@@ -98,4 +98,103 @@ class Matches extends BaseController
       'categories' => $categories,
     ]);
   }
+
+  public function edit($id)
+  {
+    if (!$this->session->get('isLoggedIn')) {
+      return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
+    }
+
+    // Verificar si el partido existe
+    $match = $this->matchModel->find($id);
+
+    if (!$match) {
+      return redirect()->to('/matches')->with('error', 'El partido no existe.');
+    }
+
+    // Asegúrate de que el usuario sea dueño del partido
+    if ($match['user_id'] != $this->session->get('user_id')) {
+      return redirect()->to('/matches')->with('error', 'No tienes permiso para editar este partido.');
+    }
+
+    // Cargar la vista de edición con los datos del partido
+    return view('edit_match', [
+      'title' => 'Editar Partido',
+      'match' => $match
+    ]);
+  }
+
+  public function update($id)
+  {
+    if (!$this->session->get('isLoggedIn')) {
+      return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
+    }
+
+    // Verificar si el partido existe
+    $match = $this->matchModel->find($id);
+
+    if (!$match) {
+      return redirect()->to('/matches')->with('error', 'El partido no existe.');
+    }
+
+    // Validación de datos
+    $rules = [
+      'partner' => 'required|max_length[100]',
+      'rivals' => 'required|max_length[200]',
+      'result' => 'required|max_length[20]',
+      'win' => 'required|in_list[0,1]',
+      'category' => 'required|max_length[10]',
+      'mode' => 'required|max_length[10]',
+      'club' => 'required|max_length[50]',
+      'location' => 'required|max_length[50]',
+      'date' => 'required|valid_date',
+      'cost' => 'required|decimal',
+    ];
+
+    if (!$this->validate($rules)) {
+      return redirect()->to("/matches/edit/$id")
+        ->with('error', 'Datos inválidos. Por favor, revisa el formulario.')
+        ->withInput();
+    }
+
+    // Actualizar los datos del partido
+    $this->matchModel->update($id, [
+      'partner' => $this->request->getPost('partner'),
+      'rivals' => $this->request->getPost('rivals'),
+      'result' => $this->request->getPost('result'),
+      'win' => $this->request->getPost('win'),
+      'category' => $this->request->getPost('category'),
+      'mode' => $this->request->getPost('mode'),
+      'club' => $this->request->getPost('club'),
+      'location' => $this->request->getPost('location'),
+      'date' => $this->request->getPost('date'),
+      'cost' => $this->request->getPost('cost'),
+    ]);
+
+    return redirect()->to('/matches')->with('success', 'Partido actualizado correctamente.');
+  }
+
+  public function delete($id)
+  {
+    if (!$this->session->get('isLoggedIn')) {
+      return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
+    }
+
+    // Verificar si el partido existe
+    $match = $this->matchModel->find($id);
+
+    if (!$match) {
+      return redirect()->to('/matches')->with('error', 'El partido no existe.');
+    }
+
+    // Asegúrate de que el usuario sea dueño del partido
+    if ($match['user_id'] != $this->session->get('user_id')) {
+      return redirect()->to('/matches')->with('error', 'No tienes permiso para eliminar este partido.');
+    }
+
+    // Eliminar el partido
+    $this->matchModel->delete($id);
+
+    return redirect()->to('/matches')->with('success', 'Partido eliminado correctamente.');
+  }
 }
