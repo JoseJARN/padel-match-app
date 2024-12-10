@@ -25,7 +25,7 @@
         <ul class="space-y-3">
           <?php foreach ($matches as $match):
             $matchClass = $match['win'] ? 'bg-green-100' : 'bg-red-100'; ?>
-            <li class="<?= $matchClass ?> p-4 rounded-md flex justify-between items-center">
+            <li class="<?= $matchClass ?> p-4 rounded-md">
               <div>
                 <p><strong>👥 Compañero:</strong> <?= esc($match['partner']) ?></p>
                 <p><strong>🆚 Rivales:</strong> <?= esc($match['rivals']) ?></p>
@@ -36,6 +36,10 @@
                 <p><strong>📍 Localidad:</strong> <?= esc($match['location']) ?></p>
                 <p><strong>🗓️ Fecha:</strong> <?= esc($match['date']) ?></p>
                 <p><strong>💰 Costo:</strong> <?= esc($match['cost']) ?></p>
+              </div>
+              <div class="flex space-x-2 mt-4">
+                <a href="/matches/edit/<?= esc($match['id']) ?>" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Editar</a>
+                <a href="/matches/delete/<?= esc($match['id']) ?>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="return confirm('¿Estás seguro de eliminar este partido?')">Eliminar</a>
               </div>
             </li>
           <?php endforeach; ?>
