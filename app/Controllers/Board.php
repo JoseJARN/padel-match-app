@@ -25,11 +25,11 @@ class Board extends BaseController
     // Obtener los partidos del usuario autenticado
     $userId = $this->session->get('user_id');
 
-    // Obtener los últimos 10 partidos del usuario
+    // Obtener los últimos 6 partidos del usuario
     $matches = $this->matchModel
       ->where('user_id', $userId)
       ->orderBy('date', 'DESC')
-      ->findAll(10);
+      ->findAll(6);
 
     // Cargar la vista con los datos
     return view('board', [

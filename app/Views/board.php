@@ -87,7 +87,7 @@
     </div>
 
     <div class="bg-white shadow-xl rounded px-8 py-6">
-      <h2 class="text-2xl mb-3 font-semibold p-2 pl-4 bg-blue-50 border-l-2 border-blue-500">Últimos 10 Partidos</h2>
+      <h2 class="text-2xl mb-3 font-semibold p-2 pl-4 bg-blue-50 border-l-2 border-blue-500">Últimos 6 Partidos</h2>
       <?php if (empty($matches)): ?>
         <p class="text-gray-700">No tienes partidos registrados. ¡Añade uno!</p>
       <?php else: ?>
