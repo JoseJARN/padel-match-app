@@ -19,6 +19,7 @@ class Matches extends BaseController
   private function getStatsByPeriod($userId, $startDate)
   {
     $matches = $this->matchModel
+      ->resetQuery() // Resetea el modelo
       ->where('user_id', $userId)
       ->where('date >=', $startDate)
       ->findAll();
@@ -29,6 +30,8 @@ class Matches extends BaseController
     $winPercentage = $total > 0 ? round(($wins / $total) * 100, 2) : 0;
     $cost = array_sum(array_column($matches, 'cost'));
 
+    log_message('debug', 'Estadísticas calculadas: Total: ' . $total . ', Ganados: ' . $wins . ', Pérdidas: ' . $losses);
+
     return [
       'total' => $total,
       'wins' => $wins,
@@ -37,6 +40,7 @@ class Matches extends BaseController
       'totalCost' => $cost,
     ];
   }
+
 
   // Método público para manejar la vista principal de partidos
   public function index()
@@ -65,14 +69,10 @@ class Matches extends BaseController
     // Recuento por categorías
     $categories = $this->matchModel->getCategoriesCount($userId);
 
-    // Estadísticas de la última semana
-    $lastWeekStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 week')));
-
-    // Estadísticas del último mes
-    $lastMonthStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 month')));
-
-    // Estadísticas del último año
-    $lastYearStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 year')));
+    // Estadísticas por períodos
+    $lastWeekStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-7 days')));
+    $lastMonthStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-1 month')));
+    $lastYearStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-1 year')));
 
     // Primer partido del usuario
     $firstMatch = $this->matchModel->resetQuery()
