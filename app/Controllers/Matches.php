@@ -53,13 +53,6 @@ class Matches extends BaseController
     $totalLosses = $totalMatches - $totalWins;
     $winPercentage = $totalMatches > 0 ? round(($totalWins / $totalMatches) * 100, 2) : 0;
     $totalCost = $this->matchModel->where('user_id', $userId)->selectSum('cost')->get()->getRow()->cost;
-    $firstMatch = $this->matchModel->where('user_id', $userId)->orderBy('date', 'ASC')->first();
-    $lastMatch = $this->matchModel->where('user_id', $userId)->orderBy('date', 'DESC')->first();
-
-    // Estadísticas por períodos
-    $lastWeekStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-7 days')));
-    $lastMonthStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-1 month')));
-    $lastYearStats = $this->getStatsByPeriod($userId, date('Y-m-d H:i:s', strtotime('-1 year')));
 
     // Recuento por modalidades
     $modalities = [
@@ -72,52 +65,75 @@ class Matches extends BaseController
     // Recuento por categorías
     $categories = $this->matchModel->getCategoriesCount($userId);
 
+    // Estadísticas de la última semana
+    $lastWeekStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 week')));
+
+    // Estadísticas del último mes
+    $lastMonthStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 month')));
+
+    // Estadísticas del último año
+    $lastYearStats = $this->getStatsByPeriod($userId, date('Y-m-d', strtotime('-1 year')));
+
+    // Primer partido del usuario
+    $firstMatch = $this->matchModel->resetQuery()
+      ->where('user_id', $userId)
+      ->orderBy('date', 'ASC')
+      ->first();
+    $firstMatchDate = $firstMatch ? $firstMatch['date'] : 'N/A';
+
+    // Último partido del usuario
+    $lastMatch = $this->matchModel->resetQuery()
+      ->where('user_id', $userId)
+      ->orderBy('date', 'DESC')
+      ->first();
+    $lastMatchDate = $lastMatch ? $lastMatch['date'] : 'N/A';
+
     // Paginación de partidos
     $matches = $this->matchModel->resetQuery()
       ->where('user_id', $userId)
       ->orderBy('date', 'DESC')
-      ->paginate(20);
+      ->paginate(6); // Partidos por página
+
+    $pager = $this->matchModel->pager; // Objeto de paginación
 
     return view('matches', [
       'title' => 'Todos los Partidos',
       'matches' => $matches,
-      'pager' => $this->matchModel->pager,
+      'pager' => $pager,
       'stats' => [
         'total' => $totalMatches,
         'wins' => $totalWins,
         'losses' => $totalLosses,
         'winPercentage' => $winPercentage,
         'totalCost' => $totalCost,
-        'firstMatch' => $firstMatch ? $firstMatch['date'] : 'No disponible',
-        'lastMatch' => $lastMatch ? $lastMatch['date'] : 'No disponible',
         'lastWeek' => $lastWeekStats,
         'lastMonth' => $lastMonthStats,
         'lastYear' => $lastYearStats,
+        'firstMatch' => $firstMatchDate,
+        'lastMatch' => $lastMatchDate,
       ],
       'modalities' => $modalities,
       'categories' => $categories,
     ]);
   }
 
+  // Métodos edit, update y delete se mantienen iguales
   public function edit($id)
   {
     if (!$this->session->get('isLoggedIn')) {
       return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
     }
 
-    // Verificar si el partido existe
     $match = $this->matchModel->find($id);
 
     if (!$match) {
       return redirect()->to('/matches')->with('error', 'El partido no existe.');
     }
 
-    // Asegúrate de que el usuario sea dueño del partido
     if ($match['user_id'] != $this->session->get('user_id')) {
       return redirect()->to('/matches')->with('error', 'No tienes permiso para editar este partido.');
     }
 
-    // Cargar la vista de edición con los datos del partido
     return view('edit_match', [
       'title' => 'Editar Partido',
       'match' => $match
@@ -130,14 +146,12 @@ class Matches extends BaseController
       return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
     }
 
-    // Verificar si el partido existe
     $match = $this->matchModel->find($id);
 
     if (!$match) {
       return redirect()->to('/matches')->with('error', 'El partido no existe.');
     }
 
-    // Validación de datos
     $rules = [
       'partner' => 'required|max_length[100]',
       'rivals' => 'required|max_length[200]',
@@ -157,7 +171,6 @@ class Matches extends BaseController
         ->withInput();
     }
 
-    // Actualizar los datos del partido
     $this->matchModel->update($id, [
       'partner' => $this->request->getPost('partner'),
       'rivals' => $this->request->getPost('rivals'),
@@ -180,19 +193,16 @@ class Matches extends BaseController
       return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder.');
     }
 
-    // Verificar si el partido existe
     $match = $this->matchModel->find($id);
 
     if (!$match) {
       return redirect()->to('/matches')->with('error', 'El partido no existe.');
     }
 
-    // Asegúrate de que el usuario sea dueño del partido
     if ($match['user_id'] != $this->session->get('user_id')) {
       return redirect()->to('/matches')->with('error', 'No tienes permiso para eliminar este partido.');
     }
 
-    // Eliminar el partido
     $this->matchModel->delete($id);
 
     return redirect()->to('/matches')->with('success', 'Partido eliminado correctamente.');
