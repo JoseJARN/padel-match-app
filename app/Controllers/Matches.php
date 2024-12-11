@@ -30,8 +30,6 @@ class Matches extends BaseController
     $winPercentage = $total > 0 ? round(($wins / $total) * 100, 2) : 0;
     $cost = array_sum(array_column($matches, 'cost'));
 
-    log_message('debug', 'Estadísticas calculadas: Total: ' . $total . ', Ganados: ' . $wins . ', Pérdidas: ' . $losses);
-
     return [
       'total' => $total,
       'wins' => $wins,
